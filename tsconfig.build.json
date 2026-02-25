@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "strict": true,
+    "moduleResolution": "node",
+    "module": "CommonJS",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "outDir": "dist",
+    "rootDir": "."
+  },
+  "files": [
+    "memkit.ts",
+    "helpers/struct.ts",
+    "helpers/types.ts",
+    "helpers/memory.ts",
+    "helpers/watch.ts",
+    "helpers/batch.ts"
+  ]
+}

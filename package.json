@@ -1,0 +1,89 @@
+{
+  "name": "memkit",
+  "version": "1.0.2",
+  "description": "Windows process memory toolkit — typed reads/writes, pattern scanning, struct helpers, and more",
+  "main": "dist/memkit.js",
+  "types": "dist/memkit.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deeean/memkit.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "memory",
+    "process",
+    "windows",
+    "read-memory",
+    "write-memory",
+    "pattern-scan",
+    "struct",
+    "native",
+    "napi-rs",
+    "rust"
+  ],
+  "files": [
+    "dist/**"
+  ],
+  "napi": {
+    "binaryName": "memkit",
+    "targets": [
+      "x86_64-pc-windows-msvc"
+    ]
+  },
+  "engines": {
+    "node": ">= 12.22.0 < 13 || >= 14.17.0 < 15 || >= 15.12.0 < 16 || >= 16.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "concurrently \"nodemon --watch src --ext rs --exec \\\"napi build --platform --release\\\"\" \"nodemon --watch . --ext node --watch examples --ext ts --exec \\\"bun examples/basic.ts\\\"\"",
+    "artifacts": "napi artifacts",
+    "build": "napi build --platform --release && tsc -p tsconfig.build.json && cp index.js index.d.ts *.node dist/",
+    "build:helpers": "tsc -p tsconfig.build.json && cp index.js index.d.ts *.node dist/",
+    "build:debug": "napi build --platform",
+    "format": "bun run format:prettier && bun run format:rs && bun run format:toml",
+    "format:prettier": "prettier . -w",
+    "format:toml": "taplo format",
+    "format:rs": "cargo fmt",
+    "lint": "oxlint .",
+    "test": "bun test",
+    "preversion": "napi build --platform && git add .",
+    "version": "napi version"
+  },
+  "devDependencies": {
+    "@emnapi/core": "^1.5.0",
+    "@emnapi/runtime": "^1.5.0",
+    "@napi-rs/cli": "^3.3.1",
+    "@taplo/cli": "^0.7.0",
+    "@tybys/wasm-util": "^0.10.0",
+    "@types/node": "^25.3.0",
+    "chalk": "^5.6.2",
+    "concurrently": "^9.2.1",
+    "lint-staged": "^16.1.6",
+    "nodemon": "^3.1.10",
+    "oxlint": "^1.14.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.2"
+  },
+  "lint-staged": {
+    "*.@(js|ts|tsx)": [
+      "oxlint --fix"
+    ],
+    "*.@(js|ts|tsx|yml|yaml|md|json)": [
+      "prettier --write"
+    ],
+    "*.toml": [
+      "taplo format"
+    ]
+  },
+  "prettier": {
+    "printWidth": 120,
+    "semi": false,
+    "trailingComma": "all",
+    "singleQuote": true,
+    "arrowParens": "always"
+  },
+  "dependencies": {}
+}
